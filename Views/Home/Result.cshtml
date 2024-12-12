@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Quiz Result";
+}
+
+<h2 style="text-align: center; color: #0056b3;">Your Quiz Results</h2>
+<p style="text-align: center; font-size: 1.2rem;">You completed the @ViewBag.QuizType Quiz!</p>
+<p style="text-align: center; font-size: 1.5rem; font-weight: bold;">Score: @ViewBag.Score / 5</p>
+
+<a href="@Url.Action("SelectQuiz", "Home")"
+   style="display: block; text-align: center; margin-top: 20px; text-decoration: none; color: white; background-color: #0056b3; padding: 10px 20px; border-radius: 5px;">
+    Take Another Quiz
+</a>

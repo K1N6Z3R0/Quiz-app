@@ -1,0 +1,79 @@
+﻿<div style="max-width: 100%; min-height: 100vh; margin: 0 auto; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #f9f9f9; padding: 20px;">
+
+    <h2 style="text-align: center; color: #007bff; font-weight: bold; margin-bottom: 20px;">@ViewBag.QuizType Quiz</h2>
+
+    <form id="quizForm" style="width: 90%; max-width: 800px; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+        <input type="hidden" name="quizType" value="@ViewBag.QuizType" />
+
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <div class="question-container" style="border: 1px solid #ccc; border-radius: 10px; padding: 15px; margin-bottom: 20px; background-color: #f9f9f9;">
+                <span class="question-number" style="font-weight: bold; color: #333;">@((i + 1).ToString()). </span>
+                <span class="question-text" style="font-size: 1.2rem; font-weight: bold;">@Model[i].Text</span>
+                <div class="options-container" style="margin-top: 10px;">
+                    @for (int j = 0; j < Model[i].Options.Count; j++)
+                    {
+                        <label style="display: block; margin-bottom: 5px; font-size: 1rem; color: #555;">
+                            <input type="radio" name="answers[@i]" value="@j" required style="margin-right: 10px;" />
+                            @Model[i].Options[j]
+                        </label>
+                    }
+                </div>
+            </div>
+        }
+
+        <button type="button" id="submitQuiz" class="btn btn-primary submit-button" style="display: block; width: 50%; padding: 10px; font-size: 1rem; font-weight: bold; background-color: #007bff; color: white; border: none; border-radius: 10px; cursor: pointer; margin: 0 auto;">
+            Submit Quiz
+        </button>
+    </form>
+
+    <div id="resultsSection" style="text-align: center; margin-top: 20px; display: none; width: 90%; max-width: 800px; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+        <h3 style="color: #007bff; font-weight: bold;">Your Quiz Results</h3>
+        <p id="quizMessage"></p>
+        <div id="detailedResults"></div>
+        <button type="button" id="takeAnotherQuiz" class="btn btn-secondary" style="margin-top: 15px; padding: 12px; font-size: 1.2rem; font-weight: bold; background-color: #28a745; color: white; border: 2px solid #28a745; border-radius: 10px; cursor: pointer;">
+            Take Another Quiz
+        </button>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#submitQuiz").click(function (e) {
+            e.preventDefault();
+
+            var formData = $("#quizForm").serialize();
+
+            $.ajax({
+                url: '/Home/SubmitQuiz',
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    var resultData = response; // Assuming response contains a JSON object with score and detailed feedback
+
+                    var resultHtml = "<p><strong>Score:</strong> " + resultData.score + " / " + resultData.total + "</p>";
+                    resultHtml += "<ul style='text-align: left;'>";
+
+                    resultData.detailedFeedback.forEach(function (feedback, index) {
+                        resultHtml += "<li><strong>Question " + (index + 1) + ":</strong> " + feedback + "</li>";
+                    });
+
+                    resultHtml += "</ul>";
+
+                    $("#quizMessage").html("Great job! Here are your results:");
+                    $("#detailedResults").html(resultHtml);
+                    $("#resultsSection").show();
+                },
+                error: function () {
+                    alert("An error occurred while submitting the quiz.");
+                }
+            });
+        });
+
+        $("#takeAnotherQuiz").click(function () {
+            location.href = '/Home/SelectQuiz';
+        });
+    });
+</script>

@@ -1,0 +1,38 @@
+﻿@model QuizApp.Models.User
+
+<div style="display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f3f4f6; padding: 20px;">
+    <div style="width: 100%; max-width: 450px; background-color: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); text-align: center;">
+        <h1 style="color: #28a745; font-weight: bold; margin-bottom: 15px; font-size: 2.2rem; line-height: 1.2;">Welcome to the Quiz App!</h1>
+        <p style="margin-bottom: 25px; color: #555; font-size: 1rem;">Please log in to access your quizzes.</p>
+
+        @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { style = "text-align: left;" }))
+        {
+            <div style="margin-bottom: 20px;">
+                @Html.LabelFor(m => m.Username, new { @style = "display: block; font-size: 1rem; font-weight: bold; color: #333; margin-bottom: 8px;" })
+                @Html.TextBoxFor(m => m.Username, new { @style = "width: 100%; padding: 12px; font-size: 1rem; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;" })
+                @Html.ValidationMessageFor(m => m.Username, "", new { @style = "color: red; font-size: 0.9rem; margin-top: 5px;" })
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                @Html.LabelFor(m => m.Password, new { @style = "display: block; font-size: 1rem; font-weight: bold; color: #333; margin-bottom: 8px;" })
+                @Html.PasswordFor(m => m.Password, new { @style = "width: 100%; padding: 12px; font-size: 1rem; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @style = "color: red; font-size: 0.9rem; margin-top: 5px;" })
+            </div>
+
+            <div>
+                <button type="submit"
+                        class="btn btn-primary"
+                        style="width: 100%; padding: 12px; font-size: 1.2rem; font-weight: bold; background-color: #28a745; color: white; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease;">
+                    Login
+                </button>
+            </div>
+        }
+
+        @if (ViewBag.Message != null)
+        {
+            <p style="color: red; font-size: 0.9rem; margin-top: 15px;">@ViewBag.Message</p>
+        }
+
+        <p style="margin-top: 20px; font-size: 0.9rem; color: #555;">Don't have an account? <a href="/Home/Register" style="color: #28a745; text-decoration: none;">Sign up here</a>.</p>
+    </div>
+</div>

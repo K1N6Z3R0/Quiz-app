@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "Select Quiz";
+}
+
+<h2 style="text-align: center; color: #007bff; font-size: 2.5rem; font-weight: bold;">Select Quiz</h2>
+<p style="text-align: center; font-size: 1.5rem; margin-top: 10px;">Welcome, <strong>@ViewBag.Username</strong>!</p>
+
+<div style="max-width: 600px; margin: 40px auto; text-align: center; border: 1px solid #ddd; border-radius: 15px; padding: 30px; background-color: #f9f9f9;">
+    <form id="selectQuizForm" method="post" action="/Home/Quiz">
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; font-size: 1.5rem; margin: 15px 0; cursor: pointer;">
+                <input type="radio" name="quizType" value="Programming" style="margin-right: 10px; transform: scale(1.2);" required />
+                Programming Quiz
+            </label>
+            <label style="display: block; font-size: 1.5rem; margin: 15px 0; cursor: pointer;">
+                <input type="radio" name="quizType" value="General Knowledge" style="margin-right: 10px; transform: scale(1.2);" required />
+                General Knowledge Quiz
+            </label>
+        </div>
+
+        <button type="submit" class="btn" style="width: 100%; padding: 15px; font-size: 1.5rem; font-weight: bold; color: white; background-color: #007bff; border: none; border-radius: 10px; cursor: pointer;">
+            Start Quiz
+        </button>
+    </form>
+</div>
+
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    form label {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+    }
+
+    input[type="radio"] {
+        margin-right: 10px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 1rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+</style>
